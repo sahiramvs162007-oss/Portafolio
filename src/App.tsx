@@ -1,4 +1,5 @@
 import { ThemeProvider } from "./context/ThemeContext";
+import GoldBackground from "./components/GoldBackground";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -11,7 +12,8 @@ import Footer from "./components/Footer";
 function App() {
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-ink-50 text-ink-900 dark:bg-ink-950 dark:text-ink-50">
+      <div className="relative min-h-screen text-ink-900 dark:text-ink-50">
+        <GoldBackground />
         <Navbar />
         <main>
           <Hero />

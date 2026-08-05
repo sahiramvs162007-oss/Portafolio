@@ -29,7 +29,7 @@ export default function Navbar() {
           : "bg-transparent py-6"
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <a href="#inicio" className="font-display text-2xl tracking-wide text-ink-900 dark:text-ink-50">
           <span className="text-gold-500">S</span>ahira
         </a>
@@ -75,7 +75,7 @@ export default function Navbar() {
       </div>
 
       {open && (
-        <nav className="mx-auto mt-4 flex max-w-6xl flex-col gap-1 px-6 pb-4 md:hidden">
+        <nav className="mx-auto mt-4 flex max-w-7xl flex-col gap-1 px-4 sm:px-6 lg:px-8 pb-4 md:hidden">
           {links.map((l) => (
             <a
               key={l.href}

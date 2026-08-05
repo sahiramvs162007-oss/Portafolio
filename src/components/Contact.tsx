@@ -17,7 +17,7 @@ export default function Contact() {
 
   return (
     <section id="contacto" className="relative py-24 md:py-32">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionEyebrow label="Contacto" />
         <h2 className="mt-4 font-display text-3xl font-semibold text-ink-900 dark:text-ink-50 sm:text-4xl">
           Hablemos de tu <span className="text-gradient-gold">próximo proyecto</span>

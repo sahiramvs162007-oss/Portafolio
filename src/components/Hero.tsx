@@ -6,11 +6,7 @@ export default function Hero() {
 
   return (
     <section id="inicio" className="relative overflow-hidden pt-36 pb-24 md:pt-44 md:pb-32">
-      {/* ambient gold glow */}
-      <div className="pointer-events-none absolute -top-32 right-[-10%] h-[28rem] w-[28rem] rounded-full bg-gold-400/20 blur-[120px] dark:bg-gold-500/10" />
-      <div className="pointer-events-none absolute bottom-[-6rem] left-[-8%] h-72 w-72 rounded-full bg-gold-300/10 blur-[100px]" />
-
-      <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-16 px-6 md:grid-cols-[1.1fr_0.9fr]">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-4 sm:px-6 lg:px-8 md:grid-cols-[1.1fr_0.9fr]">
         {/* Left — description */}
         <div ref={infoRef} className="reveal order-2 text-center md:order-1 md:text-left">
           <p className="font-script text-3xl italic text-ink-300 dark:text-ink-400 mb-1">¡Hola! Soy</p>
@@ -145,7 +141,7 @@ export default function Hero() {
 
             {/* Image */}
             <img
-              src="/sahira.png"
+              src="/sahira.jpeg"
               alt="Sahira Vargas"
               className="h-76 w-76 rounded-full object-cover sm:h-96 sm:w-96 md:h-[26rem] md:w-[26rem] border-4 border-gold-500/80 shadow-[0_0_35px_rgba(201,152,46,0.5)] animate-image-pulse z-10 relative"
             />

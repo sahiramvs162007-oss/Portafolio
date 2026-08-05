@@ -7,9 +7,7 @@ export default function Technologies() {
 
   return (
     <section id="tecnologias" className="relative overflow-hidden py-24 md:py-32">
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[36rem] w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold-400/5 blur-[140px]" />
-
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionEyebrow label="Tecnologías" />
         <h2 className="mt-4 font-display text-3xl font-semibold text-ink-900 dark:text-ink-50 sm:text-4xl">
           Herramientas que <span className="text-gradient-gold">uso en el camino</span>

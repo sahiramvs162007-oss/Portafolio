@@ -13,7 +13,7 @@ export default function Projects() {
 
   return (
     <section id="proyectos" className="relative py-24 md:py-32">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <SectionEyebrow label="Proyectos" />
