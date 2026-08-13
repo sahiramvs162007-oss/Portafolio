@@ -1,25 +1,48 @@
+import { useState, useEffect } from "react";
 import { useReveal } from "../hooks/useReveal";
+import api from "../utils/api";
 
 export default function Hero() {
   const infoRef = useReveal<HTMLDivElement>();
   const photoRef = useReveal<HTMLDivElement>();
+  const [profile, setProfile] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const { data } = await api.get("/profile");
+        if (data) setProfile(data);
+      } catch (error) {
+        console.error("Error cargando perfil", error);
+      }
+    };
+    fetchProfile();
+  }, []);
+
+  const heroData = profile?.hero || {
+    saludo: "¡Hola! Soy",
+    nombre: "Sahira",
+    apellido: "Vargas",
+    rol: "Desarrolladora de software",
+    descripcion: "Desarrollo aplicaciones web modernas, funcionales y centradas en la experiencia de usuario. Me apasiona resolver problemas y crear soluciones que generen impacto.",
+    fotoUrl: "/sahira.jpeg"
+  };
 
   return (
     <section id="inicio" className="relative overflow-hidden pt-36 pb-24 md:pt-44 md:pb-32">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-4 sm:px-6 lg:px-8 md:grid-cols-[1.1fr_0.9fr]">
         {/* Left — description */}
         <div ref={infoRef} className="reveal order-2 text-center md:order-1 md:text-left">
-          <p className="font-script text-3xl italic text-ink-300 dark:text-ink-400 mb-1">¡Hola! Soy</p>
+          <p className="font-script text-3xl italic text-ink-300 dark:text-ink-400 mb-1">{heroData.saludo}</p>
           <h1 className="font-body text-5xl font-extrabold tracking-tight text-ink-900 dark:text-ink-50 sm:text-6xl md:text-7xl">
-            Sahira <span className="text-gradient-gold font-extrabold">Vargas</span>
+            {heroData.nombre} <span className="text-gradient-gold font-extrabold">{heroData.apellido}</span>
           </h1>
           <p className="mt-2 font-script text-3xl italic text-gradient-gold md:text-4xl">
-            Desarrolladora de software
+            {heroData.rol}
           </p>
 
           <p className="mx-auto mt-6 max-w-md text-balance font-body text-base leading-relaxed text-ink-700/90 dark:text-ink-100/80 md:mx-0">
-            Desarrollo aplicaciones web modernas, funcionales y centradas en la experiencia de usuario.
-            Me apasiona resolver problemas y crear soluciones que generen impacto.
+            {heroData.descripcion}
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4 md:justify-start">
@@ -141,7 +164,7 @@ export default function Hero() {
 
             {/* Image */}
             <img
-              src="/sahira.jpeg"
+              src={heroData.fotoUrl}
               alt="Sahira Vargas"
               className="h-76 w-76 rounded-full object-cover sm:h-96 sm:w-96 md:h-[26rem] md:w-[26rem] border-4 border-gold-500/80 shadow-[0_0_35px_rgba(201,152,46,0.5)] animate-image-pulse z-10 relative"
             />
