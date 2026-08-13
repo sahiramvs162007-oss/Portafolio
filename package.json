@@ -23,6 +23,6 @@
   },
   "homepage": "https://github.com/sahiramvs162007-oss/Portafolio#readme",
   "devDependencies": {
-    "concurrently": "^10.0.4"
+    "concurrently": "^10.0.0"
   }
 }
