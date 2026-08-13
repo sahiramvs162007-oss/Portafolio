@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const technology_controller_1 = require("../controllers/technology.controller");
+const verifyToken_1 = require("../middlewares/verifyToken");
+const router = (0, express_1.Router)();
+router.get("/", technology_controller_1.getTechnologies);
+router.post("/", verifyToken_1.verifyToken, technology_controller_1.createTechnology);
+router.put("/:id", verifyToken_1.verifyToken, technology_controller_1.updateTechnology);
+router.delete("/:id", verifyToken_1.verifyToken, technology_controller_1.deleteTechnology);
+exports.default = router;

@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const experience_controller_1 = require("../controllers/experience.controller");
+const verifyToken_1 = require("../middlewares/verifyToken");
+const router = (0, express_1.Router)();
+router.get("/", experience_controller_1.getExperiences);
+router.post("/", verifyToken_1.verifyToken, experience_controller_1.createExperience);
+router.put("/:id", verifyToken_1.verifyToken, experience_controller_1.updateExperience);
+router.delete("/:id", verifyToken_1.verifyToken, experience_controller_1.deleteExperience);
+exports.default = router;

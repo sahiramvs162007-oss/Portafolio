@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const project_controller_1 = require("../controllers/project.controller");
+const verifyToken_1 = require("../middlewares/verifyToken");
+const upload_1 = require("../middlewares/upload");
+const router = (0, express_1.Router)();
+router.get("/", project_controller_1.getProjects);
+router.post("/", verifyToken_1.verifyToken, upload_1.upload.single("image"), project_controller_1.createProject);
+router.put("/:id", verifyToken_1.verifyToken, upload_1.upload.single("image"), project_controller_1.updateProject);
+router.delete("/:id", verifyToken_1.verifyToken, project_controller_1.deleteProject);
+exports.default = router;
