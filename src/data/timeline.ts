@@ -6,33 +6,27 @@ export interface TimelineItem {
 
 export const timeline: TimelineItem[] = [
   {
-    year: "2022",
-    title: "Bachiller con énfasis en Informática",
-    description: "Institución Educativa Sagrados Corazones, reconocimiento por excelencia académica.",
-  },
-  {
     year: "2023",
-    title: "Inicio de la Tecnología",
-    description: "Comienza Tecnología en Análisis y Desarrollo de Software — SENA.",
-  },
-  {
-    year: "2023 - 2024",
-    title: "Proyectos académicos",
-    description: "Desarrollo de múltiples proyectos aplicando distintas tecnologías y patrones de diseño.",
+    title: "Bachiller con énfasis en Informática",
+    description:
+      "Institución Educativa Sagrados Corazones | Graduada con reconocimiento a la excelencia académica por desempeño sobresaliente y sólida base tecnológica.",
   },
   {
     year: "2024",
-    title: "Proyecto integrador: Klassy",
-    description: "Diseño y desarrollo de Klassy, gestor académico institucional.",
+    title: "Cursos de Inglés - Formación Continua en Idiomas",
+    description:
+      "Fortalecimiento del perfil internacional mediante el desarrollo de competencias comunicativas y dominio profesional del inglés.",
   },
   {
-    year: "2024 - 2025",
-    title: "Aprendizaje continuo",
-    description: "Formación en nuevas tecnologías, buenas prácticas, arquitectura y testing.",
+    year: "2025 - 2026",
+    title: "Tecnólogo en Análisis y Desarrollo de Software",
+    description:
+      "Formación práctica en diseño, desarrollo y despliegue de soluciones de software. Experiencia aplicando buenas prácticas de programación, arquitecturas modernas y nuevas tecnologías en proyectos reales (culminación: nov. 2026).",
   },
   {
-    year: "2026",
-    title: "Nuevos retos",
-    description: "Egreso de la Tecnología en Análisis y Desarrollo de Software. En búsqueda de oportunidades para seguir creciendo.",
+    year: "2026+",
+    title: "Nuevos Retos",
+    description:
+      "En búsqueda activa de oportunidades para aplicar mis habilidades en desarrollo de software, aportar en proyectos de alto impacto y continuar mi crecimiento profesional.",
   },
 ];
