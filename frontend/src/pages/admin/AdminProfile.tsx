@@ -55,10 +55,13 @@ export default function AdminProfile() {
       // Tenemos que estructurarlo. El controlador que hicimos hace req.body 
       // Por simplicidad en la subida, enviaremos los datos vitales anidados.
       formData.append("hero[saludo]", profile.hero?.saludo || "");
+      formData.append("hero[saludo_en]", profile.hero?.saludo_en || "");
       formData.append("hero[nombre]", profile.hero?.nombre || "");
       formData.append("hero[apellido]", profile.hero?.apellido || "");
       formData.append("hero[rol]", profile.hero?.rol || "");
+      formData.append("hero[rol_en]", profile.hero?.rol_en || "");
       formData.append("hero[descripcion]", profile.hero?.descripcion || "");
+      formData.append("hero[descripcion_en]", profile.hero?.descripcion_en || "");
       formData.append("sobreMi[titulo]", profile.sobreMi?.titulo || "");
       formData.append("sobreMi[descripcion]", profile.sobreMi?.descripcion || "");
 
@@ -129,8 +132,29 @@ export default function AdminProfile() {
               </div>
             </div>
 
+            <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm text-ink-300 mb-1">Nombre</label>
+                <input
+                  type="text"
+                  value={profile.hero?.nombre || ""}
+                  onChange={(e) => handleChange("hero", "nombre", e.target.value)}
+                  className="w-full bg-ink-950 border border-ink-800 rounded-lg px-3 py-2 text-ink-50"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-ink-300 mb-1">Apellido</label>
+                <input
+                  type="text"
+                  value={profile.hero?.apellido || ""}
+                  onChange={(e) => handleChange("hero", "apellido", e.target.value)}
+                  className="w-full bg-ink-950 border border-ink-800 rounded-lg px-3 py-2 text-ink-50"
+                />
+              </div>
+            </div>
+
             <div>
-              <label className="block text-sm text-ink-300 mb-1">Saludo</label>
+              <label className="block text-sm text-ink-300 mb-1">Saludo (ES)</label>
               <input
                 type="text"
                 value={profile.hero?.saludo || ""}
@@ -139,7 +163,17 @@ export default function AdminProfile() {
               />
             </div>
             <div>
-              <label className="block text-sm text-ink-300 mb-1">Rol</label>
+              <label className="block text-sm text-ink-300 mb-1">Saludo (EN)</label>
+              <input
+                type="text"
+                value={profile.hero?.saludo_en || ""}
+                onChange={(e) => handleChange("hero", "saludo_en", e.target.value)}
+                className="w-full bg-ink-950 border border-ink-800 rounded-lg px-3 py-2 text-ink-50"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm text-ink-300 mb-1">Rol (ES)</label>
               <input
                 type="text"
                 value={profile.hero?.rol || ""}
@@ -148,28 +182,29 @@ export default function AdminProfile() {
               />
             </div>
             <div>
-              <label className="block text-sm text-ink-300 mb-1">Nombre</label>
+              <label className="block text-sm text-ink-300 mb-1">Rol (EN)</label>
               <input
                 type="text"
-                value={profile.hero?.nombre || ""}
-                onChange={(e) => handleChange("hero", "nombre", e.target.value)}
+                value={profile.hero?.rol_en || ""}
+                onChange={(e) => handleChange("hero", "rol_en", e.target.value)}
                 className="w-full bg-ink-950 border border-ink-800 rounded-lg px-3 py-2 text-ink-50"
               />
             </div>
-            <div>
-              <label className="block text-sm text-ink-300 mb-1">Apellido</label>
-              <input
-                type="text"
-                value={profile.hero?.apellido || ""}
-                onChange={(e) => handleChange("hero", "apellido", e.target.value)}
+            
+            <div className="col-span-2">
+              <label className="block text-sm text-ink-300 mb-1">Descripción Corta (ES)</label>
+              <textarea
+                value={profile.hero?.descripcion || ""}
+                onChange={(e) => handleChange("hero", "descripcion", e.target.value)}
+                rows={3}
                 className="w-full bg-ink-950 border border-ink-800 rounded-lg px-3 py-2 text-ink-50"
               />
             </div>
             <div className="col-span-2">
-              <label className="block text-sm text-ink-300 mb-1">Descripción Corta</label>
+              <label className="block text-sm text-ink-300 mb-1">Descripción Corta (EN)</label>
               <textarea
-                value={profile.hero?.descripcion || ""}
-                onChange={(e) => handleChange("hero", "descripcion", e.target.value)}
+                value={profile.hero?.descripcion_en || ""}
+                onChange={(e) => handleChange("hero", "descripcion_en", e.target.value)}
                 rows={3}
                 className="w-full bg-ink-950 border border-ink-800 rounded-lg px-3 py-2 text-ink-50"
               />

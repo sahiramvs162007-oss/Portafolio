@@ -1,5 +1,6 @@
 import { useReveal } from "../hooks/useReveal";
 import { SectionEyebrow } from "./About";
+import { useLanguage } from "../context/LanguageContext";
 
 const skills = [
   "Resolución de problemas",
@@ -10,35 +11,53 @@ const skills = [
   "Adaptabilidad",
 ];
 
+const skillsEn = [
+  "Problem solving",
+  "Logical thinking",
+  "Teamwork",
+  "Continuous learning",
+  "Effective communication",
+  "Adaptability",
+];
+
 const process = ["Idea", "Análisis", "Diseño", "Desarrollo", "Pruebas", "Despliegue"];
+const processEn = ["Idea", "Analysis", "Design", "Development", "Testing", "Deployment"];
 
 export default function Contact() {
   const ref = useReveal<HTMLDivElement>();
+  const { language } = useLanguage();
+
+  const currentSkills = language === "en" ? skillsEn : skills;
+  const currentProcess = language === "en" ? processEn : process;
 
   return (
     <section id="contacto" className="relative py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionEyebrow label="Contacto" />
+        <SectionEyebrow label={language === "en" ? "Contact" : "Contacto"} />
         <h2 className="mt-4 font-display text-3xl font-semibold text-ink-900 dark:text-ink-50 sm:text-4xl">
-          Hablemos de tu <span className="text-gradient-gold">próximo proyecto</span>
+          {language === "en" ? (
+            <>Let's talk about your <span className="text-gradient-gold">next project</span></>
+          ) : (
+            <>Hablemos de tu <span className="text-gradient-gold">próximo proyecto</span></>
+          )}
         </h2>
 
         <div ref={ref} className="reveal mt-14 grid grid-cols-1 gap-6 md:grid-cols-4">
-          <Card title="Formación">
+          <Card title={language === "en" ? "Education" : "Formación"}>
             <p className="font-body text-sm font-semibold text-ink-900 dark:text-ink-50">
-              Tecnología en Análisis y Desarrollo de Software
+              {language === "en" ? "Software Analysis and Development Technology" : "Tecnología en Análisis y Desarrollo de Software"}
             </p>
             <p className="mt-1 font-body text-xs text-ink-700/70 dark:text-ink-100/60">SENA · 2022 – 2026</p>
             <ul className="mt-3 space-y-1 font-body text-xs text-ink-700/80 dark:text-ink-100/70">
-              <li>· Inglés Nivel 1–5 (SENA)</li>
-              <li>· Desarrollo Web Full Stack</li>
-              <li>· Bases de Datos SQL y NoSQL</li>
+              <li>{language === "en" ? "· English Level 1–5 (SENA)" : "· Inglés Nivel 1–5 (SENA)"}</li>
+              <li>{language === "en" ? "· Full Stack Web Development" : "· Desarrollo Web Full Stack"}</li>
+              <li>{language === "en" ? "· SQL & NoSQL Databases" : "· Bases de Datos SQL y NoSQL"}</li>
             </ul>
           </Card>
 
-          <Card title="Habilidades">
+          <Card title={language === "en" ? "Skills" : "Habilidades"}>
             <ul className="grid grid-cols-1 gap-1.5 font-body text-xs text-ink-700/85 dark:text-ink-100/75">
-              {skills.map((s) => (
+              {currentSkills.map((s) => (
                 <li key={s} className="flex items-center gap-2">
                   <span className="h-1 w-1 rounded-full bg-gold-400" />
                   {s}
@@ -47,9 +66,9 @@ export default function Contact() {
             </ul>
           </Card>
 
-          <Card title="Proceso de trabajo">
+          <Card title={language === "en" ? "Workflow" : "Proceso de trabajo"}>
             <div className="flex flex-wrap gap-2">
-              {process.map((p) => (
+              {currentProcess.map((p) => (
                 <span
                   key={p}
                   className="rounded-full border border-gold-500/25 px-2.5 py-1 font-body text-[11px] text-gold-600 dark:text-gold-300"
@@ -59,11 +78,11 @@ export default function Contact() {
               ))}
             </div>
             <p className="mt-3 font-body text-[11px] italic text-ink-600/70 dark:text-ink-100/50">
-              Mejora continua en cada iteración.
+              {language === "en" ? "Continuous improvement in each iteration." : "Mejora continua en cada iteración."}
             </p>
           </Card>
 
-          <Card title="Contacto directo">
+          <Card title={language === "en" ? "Direct contact" : "Contacto directo"}>
             <ul className="space-y-2 font-body text-sm text-ink-800 dark:text-ink-100/85">
               <li>
                 <a href="mailto:sahiramvs162007@gmail.com" className="hover:text-gold-500">
@@ -81,7 +100,7 @@ export default function Contact() {
               href="mailto:sahiramvs162007@gmail.com"
               className="mt-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-gold-500 to-gold-400 px-5 py-2.5 font-body text-sm font-semibold text-ink-950 shadow-md transition-transform hover:-translate-y-0.5"
             >
-              ¡Hablemos! ↻
+              {language === "en" ? "Let's talk! ↻" : "¡Hablemos! ↻"}
             </a>
           </Card>
         </div>

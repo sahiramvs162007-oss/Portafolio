@@ -2,6 +2,7 @@ import { useReveal } from "../hooks/useReveal";
 import { techCategories } from "../data/tech";
 import { SectionEyebrow } from "./About";
 import { useState } from "react";
+import { useLanguage } from "../context/LanguageContext";
 
 // Flatten all tech categories into a single list
 const getAllTechs = () => {
@@ -12,6 +13,7 @@ export default function Technologies() {
   const ref = useReveal<HTMLDivElement>();
   const allTechs = getAllTechs();
   const [hoveredTech, setHoveredTech] = useState<string | null>(null);
+  const { language } = useLanguage();
 
   const handleMouseEnter = (_e: React.MouseEvent, techName: string) => {
     setHoveredTech(techName);
@@ -27,13 +29,18 @@ export default function Technologies() {
       className="relative overflow-hidden py-16 md:py-20"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionEyebrow label="Tecnologías" />
+        <SectionEyebrow label={language === "en" ? "Technologies" : "Tecnologías"} />
         <h2 className="mt-4 font-display text-3xl font-semibold text-ink-900 dark:text-ink-50 sm:text-4xl">
-          Tecnologías que <span className="text-gradient-gold">utilizo</span>
+          {language === "en" ? (
+            <>Technologies I <span className="text-gradient-gold">use</span></>
+          ) : (
+            <>Tecnologías que <span className="text-gradient-gold">utilizo</span></>
+          )}
         </h2>
         <p className="mt-3 max-w-xl font-body text-ink-700/80 dark:text-ink-100/70">
-          Herramientas y tecnologías que uso para crear soluciones modernas,
-          eficientes y escalables.
+          {language === "en" 
+            ? "Tools and technologies I use to build modern, efficient, and scalable solutions."
+            : "Herramientas y tecnologías que uso para crear soluciones modernas, eficientes y escalables."}
         </p>
 
         <div ref={ref} className="reveal mt-12">

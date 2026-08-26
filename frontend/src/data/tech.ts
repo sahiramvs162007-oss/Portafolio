@@ -20,6 +20,7 @@ import type { IconType } from "react-icons";
 export interface TechCategory {
   id: string;
   label: string;
+  labelEn?: string;
   items: { name: string; icon: IconType }[];
 }
 
@@ -27,6 +28,7 @@ export const techCategories: TechCategory[] = [
   {
     id: "frontend",
     label: "Frontend",
+    labelEn: "Frontend",
     items: [
       { name: "HTML5", icon: SiHtml5 },
       { name: "CSS3", icon: SiCss },
@@ -40,6 +42,7 @@ export const techCategories: TechCategory[] = [
   {
     id: "backend",
     label: "Backend",
+    labelEn: "Backend",
     items: [
       { name: "Node.js", icon: SiNodedotjs },
       { name: "Express", icon: SiExpress },
@@ -48,6 +51,7 @@ export const techCategories: TechCategory[] = [
   {
     id: "data",
     label: "Bases de datos",
+    labelEn: "Databases",
     items: [
       { name: "MongoDB", icon: SiMongodb },
       { name: "MySQL", icon: SiMysql },
@@ -56,6 +60,7 @@ export const techCategories: TechCategory[] = [
   {
     id: "tools",
     label: "Herramientas",
+    labelEn: "Tools",
     items: [
       { name: "Git", icon: SiGit },
       { name: "GitHub", icon: SiGithub },

@@ -28,24 +28,37 @@ export const getProfile = async (req: Request, res: Response): Promise<any> => {
 // PUT /api/profile
 export const updateProfile = async (req: Request, res: Response): Promise<any> => {
   try {
-    // Si se subieron archivos (fotoUrl o cvUrl), vienen en req.files gracias a multer (si configuramos multiple)
-    // Pero asumiremos que multer lo procesó antes y los datos ya están estructurados, o podemos recibir JSON
-    // y dejar que otra ruta maneje la subida de imágenes, o procesar req.file.path.
+    let profile = await Profile.findOne();
+    if (!profile) {
+      profile = new Profile();
+    }
     
-    const updateData = req.body;
+    // Parsear campos planos del req.body estructurados con corchetes (ej. hero[saludo])
+    for (const key of Object.keys(req.body)) {
+      const match = key.match(/^(\w+)\[(\w+)\]$/);
+      if (match) {
+        const [_, section, field] = match;
+        if (section === "hero") {
+          if (!profile.hero) profile.hero = {} as any;
+          (profile.hero as any)[field] = req.body[key];
+        } else if (section === "sobreMi") {
+          if (!profile.sobreMi) profile.sobreMi = {} as any;
+          (profile.sobreMi as any)[field] = req.body[key];
+        }
+      } else {
+        (profile as any)[key] = req.body[key];
+      }
+    }
     
-    // Si req.file existe (asumiendo campo "fotoUrl" individual)
+    // Si req.file existe (imagen de perfil)
     if (req.file) {
-      if (!updateData.hero) updateData.hero = {};
-      updateData.hero.fotoUrl = req.file.path;
+      if (!profile.hero) {
+        profile.hero = {} as any;
+      }
+      (profile.hero as any).fotoUrl = req.file.path;
     }
 
-    const profile = await Profile.findOneAndUpdate(
-      {}, // Filtro vacío porque es Singleton
-      { $set: updateData },
-      { new: true, runValidators: true }
-    );
-
+    await profile.save();
     res.json(profile);
   } catch (error: any) {
     res.status(500).json({ message: "Error al actualizar el perfil", error: error.message });

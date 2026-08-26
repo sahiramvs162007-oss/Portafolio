@@ -1,16 +1,22 @@
 import { useReveal } from "../hooks/useReveal";
 import { timeline } from "../data/timeline";
 import { SectionEyebrow } from "./About";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Experience() {
   const ref = useReveal<HTMLDivElement>();
+  const { language } = useLanguage();
 
   return (
     <section id="experiencia" className="relative py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionEyebrow label="Experiencia" />
+        <SectionEyebrow label={language === "en" ? "Experience" : "Experiencia"} />
         <h2 className="mt-4 font-display text-3xl font-semibold text-ink-900 dark:text-ink-50 sm:text-4xl">
-          Mi <span className="text-gradient-gold">recorrido</span>
+          {language === "en" ? (
+            <>My <span className="text-gradient-gold">journey</span></>
+          ) : (
+            <>Mi <span className="text-gradient-gold">recorrido</span></>
+          )}
         </h2>
 
         <div ref={ref} className="reveal relative mt-16">
@@ -20,6 +26,9 @@ export default function Experience() {
           <div className="flex flex-col gap-10">
             {timeline.map((t, i) => {
               const isLeftSide = i % 2 === 0;
+              const currentTitle = language === "en" ? (t.titleEn || t.title) : t.title;
+              const currentDesc = language === "en" ? (t.descriptionEn || t.description) : t.description;
+
               return (
                 <div
                   key={t.year}
@@ -32,8 +41,8 @@ export default function Experience() {
                       <div className="md:text-right md:pr-8">
                         <TimelineCard
                           year={t.year}
-                          title={t.title}
-                          description={t.description}
+                          title={currentTitle}
+                          description={currentDesc}
                         />
                       </div>
                       <div />
@@ -44,8 +53,8 @@ export default function Experience() {
                       <div className="md:pl-8">
                         <TimelineCard
                           year={t.year}
-                          title={t.title}
-                          description={t.description}
+                          title={currentTitle}
+                          description={currentDesc}
                         />
                       </div>
                     </>
@@ -55,8 +64,8 @@ export default function Experience() {
                   <div className="md:hidden">
                     <TimelineCard
                       year={t.year}
-                      title={t.title}
-                      description={t.description}
+                      title={currentTitle}
+                      description={currentDesc}
                     />
                   </div>
                 </div>

@@ -4,10 +4,13 @@ const profileSchema = new mongoose.Schema(
   {
     hero: {
       saludo: { type: String, default: "¡Hola! Soy" },
+      saludo_en: { type: String, default: "Hi! I'm" },
       nombre: { type: String, required: true },
       apellido: { type: String, required: true },
       rol: { type: String, required: true },
+      rol_en: { type: String },
       descripcion: { type: String },
+      descripcion_en: { type: String },
       fotoUrl: { type: String },
       cvUrl: { type: String },
       redes: [

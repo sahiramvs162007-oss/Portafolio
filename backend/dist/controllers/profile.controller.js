@@ -28,18 +28,38 @@ exports.getProfile = getProfile;
 // PUT /api/profile
 const updateProfile = async (req, res) => {
     try {
-        // Si se subieron archivos (fotoUrl o cvUrl), vienen en req.files gracias a multer (si configuramos multiple)
-        // Pero asumiremos que multer lo procesó antes y los datos ya están estructurados, o podemos recibir JSON
-        // y dejar que otra ruta maneje la subida de imágenes, o procesar req.file.path.
-        const updateData = req.body;
-        // Si req.file existe (asumiendo campo "fotoUrl" individual)
-        if (req.file) {
-            if (!updateData.hero)
-                updateData.hero = {};
-            updateData.hero.fotoUrl = req.file.path;
+        let profile = await Profile_1.Profile.findOne();
+        if (!profile) {
+            profile = new Profile_1.Profile();
         }
-        const profile = await Profile_1.Profile.findOneAndUpdate({}, // Filtro vacío porque es Singleton
-        { $set: updateData }, { new: true, runValidators: true });
+        // Parsear campos planos del req.body estructurados con corchetes (ej. hero[saludo])
+        for (const key of Object.keys(req.body)) {
+            const match = key.match(/^(\w+)\[(\w+)\]$/);
+            if (match) {
+                const [_, section, field] = match;
+                if (section === "hero") {
+                    if (!profile.hero)
+                        profile.hero = {};
+                    profile.hero[field] = req.body[key];
+                }
+                else if (section === "sobreMi") {
+                    if (!profile.sobreMi)
+                        profile.sobreMi = {};
+                    profile.sobreMi[field] = req.body[key];
+                }
+            }
+            else {
+                profile[key] = req.body[key];
+            }
+        }
+        // Si req.file existe (imagen de perfil)
+        if (req.file) {
+            if (!profile.hero) {
+                profile.hero = {};
+            }
+            profile.hero.fotoUrl = req.file.path;
+        }
+        await profile.save();
         res.json(profile);
     }
     catch (error) {

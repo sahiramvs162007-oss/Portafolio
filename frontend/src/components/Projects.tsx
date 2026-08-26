@@ -1,6 +1,7 @@
 import { useReveal } from "../hooks/useReveal";
 import { projects } from "../data/projects";
 import { SectionEyebrow } from "./About";
+import { useLanguage } from "../context/LanguageContext";
 
 const accents = [
   "from-gold-400/30 to-transparent",
@@ -10,15 +11,24 @@ const accents = [
 
 export default function Projects() {
   const ref = useReveal<HTMLDivElement>();
+  const { language } = useLanguage();
 
   return (
     <section id="proyectos" className="relative py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <SectionEyebrow label="Proyectos" />
+            <SectionEyebrow label={language === "en" ? "Projects" : "Proyectos"} />
             <h2 className="mt-4 font-display text-3xl font-semibold text-ink-900 dark:text-ink-50 sm:text-4xl">
-              Proyectos <span className="text-gradient-gold">destacados</span>
+              {language === "en" ? (
+                <>
+                  Featured <span className="text-gradient-gold">projects</span>
+                </>
+              ) : (
+                <>
+                  Proyectos <span className="text-gradient-gold">destacados</span>
+                </>
+              )}
             </h2>
           </div>
         </div>
@@ -57,7 +67,7 @@ export default function Projects() {
                 />
 
                 <span className="w-fit rounded-full border border-gold-500/30 px-3 py-1 font-body text-[10px] font-semibold uppercase tracking-wider text-gold-600 dark:text-gold-300">
-                  {p.tagline}
+                  {language === "en" ? (p.taglineEn || p.tagline) : p.tagline}
                 </span>
 
                 <h3 className="mt-5 font-display text-2xl font-semibold text-ink-900 dark:text-ink-50">
@@ -65,7 +75,7 @@ export default function Projects() {
                 </h3>
 
                 <p className="mt-3 flex-1 font-body text-sm leading-relaxed text-ink-700/85 dark:text-ink-100/75">
-                  {p.description}
+                  {language === "en" ? (p.descriptionEn || p.description) : p.description}
                 </p>
 
                 <div className="mt-5 flex flex-wrap gap-2">
@@ -97,7 +107,7 @@ export default function Projects() {
                     rel="noopener noreferrer"
                     className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-gold-500 px-4 py-2.5 font-body text-sm font-semibold text-ink-950 shadow-[0_4px_16px_rgba(201,152,46,0.3)] transition-all hover:bg-gold-400 hover:shadow-[0_4px_20px_rgba(201,152,46,0.5)]"
                   >
-                    Ver proyecto
+                    {language === "en" ? "View project" : "Ver proyecto"}
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>

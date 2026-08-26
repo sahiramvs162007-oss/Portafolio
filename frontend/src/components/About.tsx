@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useReveal } from "../hooks/useReveal";
+import { useTheme } from "../context/ThemeContext";
+import { useLanguage } from "../context/LanguageContext";
 
 const traits = [
   {
@@ -8,6 +10,9 @@ const traits = [
     accentTitle: "antes de programar.",
     description:
       "Me gusta entender a fondo cada necesidad para diseñar soluciones eficientes y escalables.",
+    baseTitleEn: "I analyze the problem ",
+    accentTitleEn: "before coding.",
+    descriptionEn: "I like to fully understand every need to design efficient and scalable solutions.",
     icon: (isActive: boolean) => (
       <svg
         className={`h-6 w-6 transition-colors duration-500 ${isActive ? "text-gold-400" : "text-ink-400"}`}
@@ -36,6 +41,9 @@ const traits = [
     accentTitle: "nuevas tecnologías.",
     description:
       "La tecnología evoluciona cada día y me motiva seguir aprendiendo siempre.",
+    baseTitleEn: "I enjoy learning ",
+    accentTitleEn: "new technologies.",
+    descriptionEn: "Technology evolves every day and I am motivated to keep learning always.",
     icon: (isActive: boolean) => (
       <svg
         className={`h-6 w-6 transition-colors duration-500 ${isActive ? "text-green-400" : "text-ink-400"}`}
@@ -64,6 +72,9 @@ const traits = [
     accentTitle: "código limpio y organizado.",
     description:
       "Creo que el código debe ser fácil de entender, mantener y reutilizar.",
+    baseTitleEn: "I seek to write ",
+    accentTitleEn: "clean and organized code.",
+    descriptionEn: "I believe code should be easy to understand, maintain, and reuse.",
     icon: (isActive: boolean) => (
       <svg
         className={`h-6 w-6 transition-colors duration-500 ${isActive ? "text-purple-400" : "text-ink-400"}`}
@@ -92,6 +103,9 @@ const traits = [
     accentTitle: "mis proyectos.",
     description:
       "La documentación es clave para colaborar en equipo y mantener el software a largo plazo.",
+    baseTitleEn: "I like documenting ",
+    accentTitleEn: "my projects.",
+    descriptionEn: "Documentation is key to collaborating with a team and maintaining software long-term.",
     icon: (isActive: boolean) => (
       <svg
         className={`h-6 w-6 transition-colors duration-500 ${isActive ? "text-blue-400" : "text-ink-400"}`}
@@ -120,6 +134,9 @@ const traits = [
     accentTitle: "en equipo.",
     description:
       "Creo en la colaboración, la comunicación clara y el crecimiento colectivo.",
+    baseTitleEn: "I work very well ",
+    accentTitleEn: "in a team.",
+    descriptionEn: "I believe in collaboration, clear communication, and collective growth.",
     icon: (isActive: boolean) => (
       <svg
         className={`h-6 w-6 transition-colors duration-500 ${isActive ? "text-orange-400" : "text-ink-400"}`}
@@ -148,6 +165,9 @@ const traits = [
     accentTitle: "mejorar mis soluciones.",
     description:
       "Me enfoco en optimizar el rendimiento y ofrecer la mejor experiencia de usuario posible.",
+    baseTitleEn: "I always seek to ",
+    accentTitleEn: "improve my solutions.",
+    descriptionEn: "I focus on optimizing performance and offering the best possible user experience.",
     icon: (isActive: boolean) => (
       <svg
         className={`h-6 w-6 transition-colors duration-500 ${isActive ? "text-teal-400" : "text-ink-400"}`}
@@ -175,6 +195,8 @@ const traits = [
 export default function About() {
   const ref = useReveal<HTMLDivElement>();
   const [activeIndex, setActiveIndex] = useState(0);
+  const { theme } = useTheme();
+  const { language } = useLanguage();
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev === 0 ? traits.length - 1 : prev - 1));
@@ -218,7 +240,7 @@ export default function About() {
   return (
     <section id="sobre-mi" className="relative py-16 md:py-20 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionEyebrow label="Sobre mí" />
+        <SectionEyebrow label={language === "en" ? "About me" : "Sobre mí"} />
 
         <div
           ref={ref}
@@ -254,37 +276,46 @@ export default function About() {
                   const styleClass = getCardStyle(i);
                   const inlineStyle = getCardInlineStyle(i);
                   const isActive = i === activeIndex;
+                  
+                  const currentBaseTitle = language === "en" ? t.baseTitleEn : t.baseTitle;
+                  const currentAccentTitle = language === "en" ? t.accentTitleEn : t.accentTitle;
+                  const currentDescription = language === "en" ? t.descriptionEn : t.description;
 
                   return (
                     <div
                       key={t.number}
-                      style={inlineStyle}
+                      style={{
+                        ...inlineStyle,
+                        backgroundColor: theme === "light" ? t.color : undefined
+                      }}
                       onClick={() => !isActive && setActiveIndex(i)}
-                      className={`absolute inset-0 rounded-2xl border border-gold-500/20 bg-ink-900/95 p-6 transition-all duration-500 ease-out flex flex-col justify-between select-none ${styleClass}`}
+                      className={`absolute inset-0 rounded-2xl border border-gold-500/20 dark:bg-ink-900/95 p-6 transition-all duration-500 ease-out flex flex-col justify-between select-none ${styleClass}`}
                     >
                       <div className="flex flex-col items-center text-center">
                         {/* Circle Badge Icon */}
                         <div
-                          className={`flex h-14 w-14 items-center justify-center rounded-full border transition-all duration-500 ${isActive ? t.activeRingClass : t.ringClass}`}
+                          className={`flex h-14 w-14 items-center justify-center rounded-full border transition-all duration-500 ${isActive ? t.activeRingClass : t.ringClass} ${theme === "light" ? "!bg-ink-950/10 !border-ink-950/20" : ""}`}
                         >
-                          {t.icon(isActive)}
+                          <div className={theme === "light" ? "text-ink-950 [&>svg]:text-ink-950" : ""}>
+                            {t.icon(isActive)}
+                          </div>
                         </div>
                         {/* Thin golden divider */}
-                        <div className="mt-4 h-[1.5px] w-8 bg-gold-500/15" />
+                        <div className={`mt-4 h-[1.5px] w-8 ${theme === "light" ? "bg-ink-950/20" : "bg-gold-500/15"}`} />
                         {/* Title */}
-                        <h3 className="mt-4 font-body text-sm sm:text-base font-bold leading-snug text-ink-900 dark:text-ink-50">
+                        <h3 className={`mt-4 font-body text-sm sm:text-base font-bold leading-snug ${theme === "light" ? "text-ink-950" : "text-ink-900 dark:text-ink-50"}`}>
                           {isActive ? (
                             <>
-                              {t.baseTitle}
-                              <span className={t.textColorClass}>
-                                {t.accentTitle}
+                              {currentBaseTitle}
+                              <span className={theme === "light" ? "text-ink-950" : t.textColorClass}>
+                                {currentAccentTitle}
                               </span>
                             </>
                           ) : (
                             <>
-                              {t.baseTitle}
-                              <span className="text-ink-600 dark:text-ink-300">
-                                {t.accentTitle}
+                              {currentBaseTitle}
+                              <span className={theme === "light" ? "text-ink-950/70" : "text-ink-600 dark:text-ink-300"}>
+                                {currentAccentTitle}
                               </span>
                             </>
                           )}
@@ -293,14 +324,14 @@ export default function About() {
 
                       {/* Description - only shows when active */}
                       <p
-                        className={`text-center font-body text-xs sm:text-[13px] leading-relaxed text-ink-700/85 dark:text-ink-100/70 transition-all duration-300 ${isActive ? "opacity-100 max-h-[110px] visible" : "opacity-0 max-h-0 overflow-hidden invisible"}`}
+                        className={`text-center font-body text-xs sm:text-[13px] leading-relaxed transition-all duration-300 ${theme === "light" ? "text-ink-950/90" : "text-ink-700/85 dark:text-ink-100/70"} ${isActive ? "opacity-100 max-h-[110px] visible" : "opacity-0 max-h-0 overflow-hidden invisible"}`}
                       >
-                        {t.description}
+                        {currentDescription}
                       </p>
 
                       {/* Card Page Number */}
-                      <div className="text-center font-body text-xs font-bold tracking-wider text-gold-500/60 mt-1">
-                        {t.number} <span className="text-gold-500/25">/</span>{" "}
+                      <div className={`text-center font-body text-xs font-bold tracking-wider mt-1 ${theme === "light" ? "text-ink-950/60" : "text-gold-500/60"}`}>
+                        {t.number} <span className={theme === "light" ? "text-ink-950/30" : "text-gold-500/25"}>/</span>{" "}
                         06
                       </div>
                     </div>
@@ -360,35 +391,48 @@ export default function About() {
                   d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                 />
               </svg>
-              Quién soy
+              {language === "en" ? "Who I am" : "Quién soy"}
             </div>
 
             <h2 className="mt-4 font-display text-4xl font-semibold leading-tight text-ink-900 dark:text-ink-50 sm:text-5xl">
-              Tecnóloga en <br />
-              <span className="text-gradient-gold">
-                Análisis y Desarrollo
-              </span>{" "}
-              <br />
-              de Software
+              {language === "en" ? (
+                <>
+                  Technologist in <br />
+                  <span className="text-gradient-gold">
+                    Software Analysis
+                  </span>{" "}
+                  <br />
+                  and Development
+                </>
+              ) : (
+                <>
+                  Tecnóloga en <br />
+                  <span className="text-gradient-gold">
+                    Análisis y Desarrollo
+                  </span>{" "}
+                  <br />
+                  de Software
+                </>
+              )}
             </h2>
 
             {/* Accent divider line */}
             <div className="mt-4 h-[2px] w-12 bg-gradient-to-r from-gold-500 to-transparent" />
 
             <p className="mt-6 font-body text-base leading-relaxed text-ink-700/90 dark:text-ink-100/80">
-              Soy Tecnóloga en Análisis y Desarrollo de Software. Disfruto crear
-              aplicaciones que combinan lógica, diseño y usabilidad. Me interesa
-              el desarrollo Full Stack y el diseño de interfaces intuitivas.
+              {language === "en"
+                ? "I am a Software Analysis and Development Technologist. I enjoy creating applications that combine logic, design, and usability. I am interested in Full Stack development and intuitive interface design."
+                : "Soy Tecnóloga en Análisis y Desarrollo de Software. Disfruto crear aplicaciones que combinan lógica, diseño y usabilidad. Me interesa el desarrollo Full Stack y el diseño de interfaces intuitivas."}
             </p>
             <p className="mt-4 font-body text-base leading-relaxed text-ink-700/90 dark:text-ink-100/80">
-              Actualmente continúo aprendiendo y fortaleciendo mis conocimientos
-              en nuevas tecnologías, buenas prácticas de código y arquitectura
-              de software.
+              {language === "en"
+                ? "I am currently continuing to learn and strengthen my knowledge in new technologies, good coding practices, and software architecture."
+                : "Actualmente continúo aprendiendo y fortaleciendo mis conocimientos en nuevas tecnologías, buenas prácticas de código y arquitectura de software."}
             </p>
 
             <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-gold-500/30 bg-gold-500/5 px-4 py-2 font-body text-xs font-semibold tracking-wide text-gold-400">
               <span className="h-1.5 w-1.5 rounded-full bg-gold-400" />
-              Siempre aprendiendo
+              {language === "en" ? "Always learning" : "Siempre aprendiendo"}
             </div>
           </div>
         </div>
@@ -417,7 +461,7 @@ export default function About() {
                 + 8
               </span>
               <span className="mt-1 font-body text-xs text-ink-600 dark:text-ink-100/60">
-                Proyectos desarrollados
+                {language === "en" ? "Projects developed" : "Proyectos desarrollados"}
               </span>
             </div>
 
@@ -442,7 +486,7 @@ export default function About() {
                 + 3
               </span>
               <span className="mt-1 font-body text-xs text-ink-600 dark:text-ink-100/60">
-                Tecnologías dominadas
+                {language === "en" ? "Mastered technologies" : "Tecnologías dominadas"}
               </span>
             </div>
 
@@ -467,7 +511,7 @@ export default function About() {
                 + 1000
               </span>
               <span className="mt-1 font-body text-xs text-ink-600 dark:text-ink-100/60">
-                Horas de código escrito
+                {language === "en" ? "Hours of code written" : "Horas de código escrito"}
               </span>
             </div>
 
@@ -492,7 +536,7 @@ export default function About() {
                 100%
               </span>
               <span className="mt-1 font-body text-xs text-ink-600 dark:text-ink-100/60">
-                Comprometida con el aprendizaje
+                {language === "en" ? "Committed to learning" : "Comprometida con el aprendizaje"}
               </span>
             </div>
           </div>

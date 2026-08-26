@@ -2,10 +2,10 @@ export default function GoldBackground() {
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-ink-50 dark:bg-ink-950">
       {/* Soft ambient glows shared across every section */}
-      <div className="absolute -top-24 right-[-10%] h-[32rem] w-[32rem] rounded-full bg-gold-400/25 blur-[130px] dark:bg-gold-500/15" />
-      <div className="absolute top-[38%] left-[-12%] h-[26rem] w-[26rem] rounded-full bg-gold-300/15 blur-[120px] dark:bg-gold-400/8" />
-      <div className="absolute bottom-[-10%] right-[8%] h-[30rem] w-[30rem] rounded-full bg-gold-500/15 blur-[130px] dark:bg-gold-500/10" />
-      <div className="absolute bottom-[10%] left-[15%] h-[18rem] w-[18rem] rounded-full bg-gold-300/10 blur-[100px]" />
+      <div className="absolute -top-24 right-[-10%] h-[32rem] w-[32rem] rounded-full bg-gold-400/25 blur-[130px] dark:bg-gold-500/15 hidden dark:block" />
+      <div className="absolute top-[38%] left-[-12%] h-[26rem] w-[26rem] rounded-full bg-gold-300/15 blur-[120px] dark:bg-gold-400/8 hidden dark:block" />
+      <div className="absolute bottom-[-10%] right-[8%] h-[30rem] w-[30rem] rounded-full bg-gold-500/15 blur-[130px] dark:bg-gold-500/10 hidden dark:block" />
+      <div className="absolute bottom-[10%] left-[15%] h-[18rem] w-[18rem] rounded-full bg-gold-300/10 blur-[100px] hidden dark:block" />
 
       {/* Flowing gold wave lines */}
       <svg

@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { User } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
+import { useLanguage } from "../context/LanguageContext";
 
-const links = [
+const linksEs = [
   { href: "#inicio", label: "Inicio" },
   { href: "#sobre-mi", label: "Sobre mí" },
   { href: "#tecnologias", label: "Tecnologías" },
@@ -10,8 +13,18 @@ const links = [
   { href: "#contacto", label: "Contacto" },
 ];
 
+const linksEn = [
+  { href: "#inicio", label: "Home" },
+  { href: "#sobre-mi", label: "About me" },
+  { href: "#tecnologias", label: "Tech" },
+  { href: "#proyectos", label: "Projects" },
+  { href: "#experiencia", label: "Experience" },
+  { href: "#contacto", label: "Contact" },
+];
+
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
+  const { language, toggleLanguage } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -20,6 +33,8 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const currentLinks = language === "en" ? linksEn : linksEs;
 
   return (
     <header
@@ -35,7 +50,7 @@ export default function Navbar() {
         </a>
 
         <nav className="hidden items-center gap-8 md:flex">
-          {links.map((l) => (
+          {currentLinks.map((l) => (
             <a
               key={l.href}
               href={l.href}
@@ -63,6 +78,29 @@ export default function Navbar() {
           </button>
 
           <button
+            onClick={toggleLanguage}
+            aria-label="Cambiar idioma"
+            className="relative flex h-9 w-16 items-center rounded-full border border-gold-500/40 bg-ink-100 px-1 transition-colors dark:bg-ink-800 font-body text-[10px] font-bold text-ink-700 dark:text-ink-200"
+          >
+            <span
+              className={`flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-gold-300 to-gold-600 text-ink-950 shadow-md transition-transform duration-300 ${
+                language === "en" ? "translate-x-7" : "translate-x-0"
+              }`}
+            >
+              {language === "en" ? "EN" : "ES"}
+            </span>
+          </button>
+
+          <Link
+            to="/admin"
+            title="Panel de Administración"
+            aria-label="Panel de Administración"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-gold-500/40 bg-ink-100 text-ink-750 hover:bg-gold-500/10 hover:text-gold-500 transition-colors dark:bg-ink-800 dark:text-ink-100/90"
+          >
+            <User className="h-4.5 w-4.5" />
+          </Link>
+
+          <button
             className="text-ink-900 dark:text-ink-50 md:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-label="Abrir menú"
@@ -76,7 +114,7 @@ export default function Navbar() {
 
       {open && (
         <nav className="mx-auto mt-4 flex max-w-7xl flex-col gap-1 px-4 sm:px-6 lg:px-8 pb-4 md:hidden">
-          {links.map((l) => (
+          {currentLinks.map((l) => (
             <a
               key={l.href}
               href={l.href}

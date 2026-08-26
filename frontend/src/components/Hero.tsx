@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useReveal } from "../hooks/useReveal";
+import { useLanguage } from "../context/LanguageContext";
 import api from "../utils/api";
 
 export default function Hero() {
   const infoRef = useReveal<HTMLDivElement>();
   const photoRef = useReveal<HTMLDivElement>();
   const [profile, setProfile] = useState<any>(null);
+  const { language } = useLanguage();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -19,7 +21,7 @@ export default function Hero() {
     fetchProfile();
   }, []);
 
-  const heroData = profile?.hero || {
+  const defaultHero = {
     saludo: "¡Hola! Soy",
     nombre: "Sahira",
     apellido: "Vargas",
@@ -27,6 +29,28 @@ export default function Hero() {
     descripcion: "Desarrollo aplicaciones web modernas, funcionales y centradas en la experiencia de usuario. Me apasiona resolver problemas y crear soluciones que generen impacto.",
     fotoUrl: "/sahira.jpeg"
   };
+
+  const defaultHeroEn = {
+    saludo: "Hi! I'm",
+    nombre: "Sahira",
+    apellido: "Vargas",
+    rol: "Software Developer",
+    descripcion: "I develop modern, functional web applications focused on user experience. I am passionate about solving problems and creating solutions that make an impact.",
+    fotoUrl: "/sahira.jpeg"
+  };
+
+  const currentDefault = language === "en" ? defaultHeroEn : defaultHero;
+
+  const heroData = {
+    saludo: language === "en" ? (profile?.hero?.saludo_en || defaultHeroEn.saludo) : (profile?.hero?.saludo || defaultHero.saludo),
+    nombre: profile?.hero?.nombre || currentDefault.nombre,
+    apellido: profile?.hero?.apellido || currentDefault.apellido,
+    rol: language === "en" ? (profile?.hero?.rol_en || defaultHeroEn.rol) : (profile?.hero?.rol || defaultHero.rol),
+    descripcion: language === "en" ? (profile?.hero?.descripcion_en || defaultHeroEn.descripcion) : (profile?.hero?.descripcion || defaultHero.descripcion),
+    fotoUrl: profile?.hero?.fotoUrl || currentDefault.fotoUrl
+  };
+
+  const cvFile = language === "en" ? "/CV_Sahira_Vargas_EN.pdf" : "/CV_Sahira_Vargas.pdf";
 
   return (
     <section id="inicio" className="relative overflow-hidden pt-36 pb-24 md:pt-44 md:pb-32">
@@ -50,26 +74,26 @@ export default function Hero() {
               href="#proyectos"
               className="inline-flex items-center gap-2 rounded-lg bg-gold-500 px-6 py-3 font-body text-sm font-semibold text-ink-950 shadow-[0_4px_20px_rgba(201,152,46,0.3)] transition-all hover:bg-gold-400 hover:shadow-[0_4px_25px_rgba(201,152,46,0.5)] hover:-translate-y-0.5"
             >
-              Ver mis proyectos
+              {language === "en" ? "View my projects" : "Ver mis proyectos"}
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </a>
             <a
-              href="/CV_Sahira_Vargas.pdf"
+              href={cvFile}
               download
               className="inline-flex items-center gap-2 rounded-lg border border-gold-500/50 bg-transparent px-6 py-3 font-body text-sm font-semibold text-ink-900 transition-all hover:bg-gold-500/10 hover:border-gold-500 dark:text-ink-50"
             >
-              Descargar CV
+              {language === "en" ? "Download CV" : "Descargar CV"}
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
               </svg>
             </a>
             <a
-              href="#contacto"
+              href="mailto:sahiramvs162007@gmail.com"
               className="inline-flex items-center gap-2 rounded-lg border border-gold-500/50 bg-transparent px-6 py-3 font-body text-sm font-semibold text-ink-900 transition-all hover:bg-gold-500/10 hover:border-gold-500 dark:text-ink-50"
             >
-              Contactarme
+              {language === "en" ? "Contact me" : "Contactarme"}
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
@@ -78,11 +102,11 @@ export default function Hero() {
 
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row sm:justify-start">
             <span className="font-body text-xs uppercase tracking-[0.2em] text-ink-500 dark:text-ink-100/50">
-              Encuéntrame en:
+              {language === "en" ? "Find me on:" : "Encuéntrame en:"}
             </span>
             <div className="flex gap-3">
               <a
-                href="https://github.com"
+                href="https://github.com/sahiramvs162007-oss"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-gold-500/35 bg-ink-50/50 text-ink-700 transition-all hover:bg-gold-500/10 hover:border-gold-400 hover:text-gold-500 dark:bg-ink-900/50 dark:text-ink-100/70"
@@ -104,7 +128,7 @@ export default function Hero() {
                 </svg>
               </a>
               <a
-                href="mailto:sahira@example.com"
+                href="mailto:sahiramvs162007@gmail.com"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-gold-500/35 bg-ink-50/50 text-ink-700 transition-all hover:bg-gold-500/10 hover:border-gold-400 hover:text-gold-500 dark:bg-ink-900/50 dark:text-ink-100/70"
                 title="Correo"
               >
@@ -135,15 +159,15 @@ export default function Hero() {
 
             {/* Floating Tech Badges */}
             {/* Badge 1: Code */}
-            <div className="absolute top-[8%] left-[8%] z-20 flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-full border border-gold-400/80 bg-[#0d0c08] shadow-[0_0_15px_rgba(201,152,46,0.4)] animate-float">
-              <svg className="h-4 w-4 sm:h-5 sm:w-5 text-gold-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <div className="absolute top-[8%] left-[8%] z-20 flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-full border border-gold-400/80 bg-gold-400 dark:bg-[#0d0c08] shadow-[0_0_15px_rgba(201,152,46,0.4)] animate-float">
+              <svg className="h-4 w-4 sm:h-5 sm:w-5 text-ink-950 dark:text-gold-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
               </svg>
             </div>
 
             {/* Badge 2: React */}
-            <div className="absolute top-[20%] right-[-2%] z-20 flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-full border border-gold-400/80 bg-[#0d0c08] shadow-[0_0_15px_rgba(201,152,46,0.4)] animate-float [animation-delay:1.5s]">
-              <svg className="h-5 w-5 sm:h-6 sm:w-6 text-gold-400 animate-[spin_12s_linear_infinite]" viewBox="0 0 100 100" fill="none">
+            <div className="absolute top-[20%] right-[-2%] z-20 flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-full border border-gold-400/80 bg-gold-400 dark:bg-[#0d0c08] shadow-[0_0_15px_rgba(201,152,46,0.4)] animate-float [animation-delay:1.5s]">
+              <svg className="h-5 w-5 sm:h-6 sm:w-6 text-ink-950 dark:text-gold-400 animate-[spin_12s_linear_infinite]" viewBox="0 0 100 100" fill="none">
                 <ellipse cx="50" cy="50" rx="8" ry="20" stroke="currentColor" strokeWidth="2" />
                 <ellipse cx="50" cy="50" rx="8" ry="20" stroke="currentColor" strokeWidth="2" transform="rotate(60 50 50)" />
                 <ellipse cx="50" cy="50" rx="8" ry="20" stroke="currentColor" strokeWidth="2" transform="rotate(120 50 50)" />
@@ -152,14 +176,14 @@ export default function Hero() {
             </div>
 
             {/* Badge 3: JS */}
-            <div className="absolute bottom-[22%] left-[-2%] z-20 flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-full border border-gold-400/80 bg-[#0d0c08] shadow-[0_0_15px_rgba(201,152,46,0.4)] animate-float [animation-delay:3s]">
-              <span className="font-body text-xs sm:text-sm font-black text-gold-400 tracking-tighter">JS</span>
+            <div className="absolute bottom-[22%] left-[-2%] z-20 flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-full border border-gold-400/80 bg-gold-400 dark:bg-[#0d0c08] shadow-[0_0_15px_rgba(201,152,46,0.4)] animate-float [animation-delay:3s]">
+              <span className="font-body text-xs sm:text-sm font-black text-ink-950 dark:text-gold-400 tracking-tighter">JS</span>
             </div>
 
             {/* Badge 4: Node */}
-            <div className="absolute bottom-[10%] right-[6%] z-20 flex h-11 w-11 sm:h-13 sm:w-13 flex-col items-center justify-center rounded-full border border-gold-400/80 bg-[#0d0c08] shadow-[0_0_15px_rgba(201,152,46,0.4)] animate-float [animation-delay:4.5s]">
-              <span className="font-body text-[9px] sm:text-[10px] font-bold text-gold-400 leading-none">node</span>
-              <span className="text-[6px] text-gold-500 font-bold mt-0.5 leading-none">js</span>
+            <div className="absolute bottom-[10%] right-[6%] z-20 flex h-11 w-11 sm:h-13 sm:w-13 flex-col items-center justify-center rounded-full border border-gold-400/80 bg-gold-400 dark:bg-[#0d0c08] shadow-[0_0_15px_rgba(201,152,46,0.4)] animate-float [animation-delay:4.5s]">
+              <span className="font-body text-[9px] sm:text-[10px] font-bold text-ink-950 dark:text-gold-400 leading-none">node</span>
+              <span className="text-[6px] text-ink-950 dark:text-gold-500 font-bold mt-0.5 leading-none">js</span>
             </div>
 
             {/* Image */}
